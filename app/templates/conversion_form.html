@@ -1,0 +1,31 @@
+<html>
+	<head>
+		<title>FX-u-like</title>
+	</head>
+	<body>
+		<h1>FX-u-like</h1>
+		{% if error %}
+		<p><span style="color:red">Error: </span>{{ error }}</p>
+		{% elif converted_amount %}
+		<p>On {{ date }}, {{ amount }} {{ from_currency }} was {{ converted_amount }} {{ to_currency }}.</p>
+		{% endif %}
+		<form method="GET" action="{% url converter %}">
+			<label for="date">Date:</label>
+			<input type="text" name="date" value="{{ date|date:"Y-m-d" }}"/>
+			<label for="amount">Amount:</label>
+			<input type="text" name="amount" value="{{ amount }}"/>
+			<label for="from_currency">From:</label>
+			<select name="from_currency">
+				{% for c in currencies %}
+				<option value="{{ c }}" {% if from_currency == c %}selected="selected"{% endif %}>{{ c }}</option>
+				{% endfor %}
+			</select>
+			<select name="to_currency">
+				{% for c in currencies %}
+				<option value="{{ c }}" {% if to_currency == c %}selected="selected"{% endif %}>{{ c }}</option>
+				{% endfor %}
+			</select>
+			<input type="submit" value="Convert" />
+		</form>
+	</body>
+</html>
